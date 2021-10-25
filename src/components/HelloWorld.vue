@@ -17,7 +17,13 @@ export default {
       loading:false,
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+  mounted(){
+     const api = '/getName?codeId=002266'
+     this.axios.get(api).then((response) => {
+      console.log(response.data)
+    })
+  } 
 }
 </script>
 
