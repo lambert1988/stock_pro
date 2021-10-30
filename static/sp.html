@@ -105,19 +105,33 @@
                         },
                         position: function (pos, params, el, elRect, size) {
                             const obj = {
-                                top: 30
+                                top: 30,
+                                left:20,
                             };
-                            obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 30;
+                            //obj[['left', 'right'][+(pos[0] < size.viewSize[0] / 2)]] = 5;
                             return obj;
-                        }
+ 
+                        }, formatter: function (param) {
+                            param = param[0];
+                            var def =  param.data[2] - param.data[1]
+                            def =  Math.round(def / param.data[1] * 10000,2)/100;
+                            return [
+                                '日期: ' + param.name + '<hr size=1 style="margin: 3px 0">',
+                                '开盘价: ' + param.data[1] + '<br/>',
+                                '收盘价: ' + param.data[2] + '<br/>',
+                                '最低价: ' + param.data[3] + '<br/>',
+                                '最高价: ' + param.data[4] + '<br/>',
+                                '涨幅：' + def + '%<br/>'
+                            ].join('');
+                        }                        
                         // extraCssText: 'width: 170px'
                     },
                     legend: {
                         data: ['日K', 'MA5', 'MA10', 'MA20', 'MA30', 'MA60']
                     },
                     grid: {
-                        left: '10%',
-                        right: '10%',
+                        left: '12%',
+                        right: '4%',
                         bottom: '15%'
                     },
                     xAxis: {
@@ -151,8 +165,7 @@
                         top: '90%',
                         start: 50,
                         end: 100
-                    }
-                    ],
+                    } ],
                     series: [{
                         name: '日K',
                         type: 'candlestick',
@@ -162,8 +175,7 @@
                             color0: '#54FCFC',
                             borderColor: '#ef232a',
                             borderColor0: '#14b143'
-                        },
-                        emphasis: {
+                        }, emphasis: {
                             itemStyle: {
                                 color: '#ccc',
                                 color0: '#444',
