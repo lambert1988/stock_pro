@@ -12,10 +12,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: 'http://localhost:8667',
+        target: 'http://localhost:8666',
         ws: false, // 需要websocket 开启
         pathRewrite: {
-          '^/': '/'
+          '^/sp': '/sp'
         }
       }
     },
