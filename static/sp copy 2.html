@@ -71,15 +71,21 @@
             }
             return result;
         }
+        //股票数据
+        var data_json = [];
         //1 : 通过请求获取数据
-        url = "/sp/getAll?codeId=" + request("codeId");
-        $.get(url, {}, function (obj) {
+        var url = "/sp/getK2?codeId=" + request("codeId");
+        $.get(url, {}, function (result) {
+            data_json = JSON.parse(result);
+            //获取成功后执行下面的代码
+            //.....
+            data0 = splitData(data_json);
+            url = "/sp/getAll?codeId=" + request("codeId");
+            $.get(url, {}, function (obj) {
                 var arr = JSON.parse(obj);
                 line_json = arr[0]; //线条
                 name = arr[1];//名称
                 mark_json = arr[2];
-                data_json = arr[3];
-                data0 = splitData(data_json);
                 option = {
                     color: colorList,
                     title: {
@@ -251,6 +257,7 @@
                     myChart.setOption(option);
                 }
             });
+        });//请求
     </script>
 </body>
 
