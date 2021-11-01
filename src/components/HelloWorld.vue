@@ -198,21 +198,7 @@ export default {
         this.data = response.data[0]
         if (isInit) {
           this.GL = response.data[1]
-          this.Industry = [];
-          let temp = {};
-          for (let i = 0; i < this.data.length; i++) {
-            let val = this.data[i].industry;
-            if (!temp.hasOwnProperty(val)) {
-              temp[val] = val;
-            }
-          }
-          for (let prop in temp) {
-            this.Industry.push({
-              label: prop,
-              value: prop,
-            });
-          }
-          temp = null;
+          this.Industry = response.data[2]
         }
       });
     },
