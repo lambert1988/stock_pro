@@ -39,8 +39,9 @@ export default {
   name: "HelloWorld",
   data() {
     return {
-      obj: { codeId: "", name: "", industry: "", isMy: "0", qzq: "0" , zc:'0' },
+      obj: { codeId: "", name: "", industry: "", isMy: "0", qzq: "0" , zc:'0',gl:'' },
       Industry: [],
+      GL:[],
       data: [],
       iframeUrl: "",
       option: {
@@ -127,6 +128,17 @@ export default {
             enter: this.getData,
           },
           {
+            label: "概念",
+            type: "select",
+            filterable: true,
+            prop: "gl",
+            dicData: this.GL,
+            size: "mini",
+            row: true,
+            span: 24,
+            enter: this.getData,
+          },
+          {
             label: "自选",
             prop: "isMy",
             span: 24,
@@ -180,11 +192,12 @@ export default {
     },
     getData(isInit) {
       this.loading = true;
-      const api = `/sp/getbasic?codeId=${this.obj.codeId}&name=${this.obj.name}&industry=${this.obj.industry}&isMy=${this.obj.isMy}&qzq=${this.obj.qzq}&zc=${this.obj.zc}`;
+      const api = `/sp/getbasic?codeId=${this.obj.codeId}&name=${this.obj.name}&industry=${this.obj.industry}&isMy=${this.obj.isMy}&qzq=${this.obj.qzq}&zc=${this.obj.zc}&isInit=${isInit?1:0}&gl=${this.obj.gl}`;
       this.axios.get(api).then((response) => {
-        this.loading = false;
-        this.data = response.data;
+        this.loading = false
+        this.data = response.data[0]
         if (isInit) {
+          this.GL = response.data[1]
           this.Industry = [];
           let temp = {};
           for (let i = 0; i < this.data.length; i++) {
