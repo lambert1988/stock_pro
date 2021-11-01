@@ -1,4 +1,4 @@
-# stock_pro
+# s_pro
 
 > A Vue.js project
 
