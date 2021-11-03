@@ -14,7 +14,7 @@
       </avue-form>
       <avue-crud :option="option" :data="data" class="grid">
         <template slot="symbol" slot-scope="scope">
-          <span class="crud-cell-blue" @click="lookAt(scope.row)">{{
+          <span :style="visitId.indexOf(scope.row.symbol)>=0? 'color:green!important':'color:red!important'" @click="lookAt(scope.row)">{{
             scope.row.symbol
           }}</span>
         </template>
@@ -43,6 +43,7 @@ export default {
       Industry: [],
       GL:[],
       data: [],
+      visitId:[],
       iframeUrl: "",
       option: {
         menuType: "button",
@@ -179,23 +180,30 @@ export default {
   },
   methods: {
     lookAt(row) {
+      if(this.visitId.indexOf(row.symbol)){
+        this.visitId.push(row.symbol)      
+      } 
       this.iframeUrl = `/static/sp.html?codeId=${row.symbol}&order=${
         row.$index + 1
       }`;
     },
     emptytChange() {
-      this.getData();
+      //this.getData();
     },
     submit(param, done) {
       this.getData();
       done();
     },
     getData(isInit) {
+      this.visitId = []
       this.loading = true;
       const api = `/sp/getbasic?codeId=${this.obj.codeId}&name=${this.obj.name}&industry=${this.obj.industry}&isMy=${this.obj.isMy}&qzq=${this.obj.qzq}&zc=${this.obj.zc}&isInit=${isInit?1:0}&gl=${this.obj.gl}`;
       this.axios.get(api).then((response) => {
         this.loading = false
         this.data = response.data[0]
+        if(this.data.length == 1){ 
+          this.iframeUrl = `/static/sp.html?codeId=${this.data[0].symbol}&order=1`;
+        }
         if (isInit) {
           this.GL = response.data[1]
           this.Industry = response.data[2]
@@ -222,10 +230,10 @@ export default {
   padding: 0px;
   overflow: hidden;
 }
-.crud-cell-blue {
-  color: red !important;
-}
 .grid {
   overflow-x: hidden;
 }
+ 
+
+
 </style>
