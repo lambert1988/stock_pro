@@ -201,7 +201,8 @@ export default {
       this.axios.get(api).then((response) => {
         this.loading = false
         this.data = response.data[0]
-        if(this.data.length == 1){ 
+        if(this.data.length > 0){ 
+          this.visitId.push(this.data[0].symbol)
           this.iframeUrl = `/static/sp.html?codeId=${this.data[0].symbol}&order=1`;
         }
         if (isInit) {
